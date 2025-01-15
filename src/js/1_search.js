@@ -11,13 +11,13 @@ function renderSeries (imgURL, defaultTitle){
     //si el elemento tiene los objetos que contienen la url, es decir, si tiene imagen
     if (imgURL){
         //pinto los datos recogidos
-        searchList.innerHTML += `<li class=''>
+        searchList.innerHTML += `<li id="${seriesId}" class="">
         <img src="${imgURL}" alt="${defaultTitle}">
         <h3>${defaultTitle}</h3>
         </li> `
         } else{ //si no, le pongo un placeholder
-        searchList.innerHTML += `<li class=''>
-        <img src='https://placehold.co/300x400?text=${defaultTitle}' alt='${defaultTitle}'>
+        searchList.innerHTML += `<li id="${seriesId}" class="">
+        <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
         <h3>${defaultTitle}</h3>
         </li> `
         }
@@ -32,7 +32,9 @@ function selectInfo (){
 
         let defaultTitle = element.titles.find(object => object.type === "Default")?.title; //como el title está dentro de otro array llamado titles, hay que recorrerlo. Usando find encuentro el objeto cuyo type es default para luego coger el title de ese objeto
 
-        renderSeries(imgURL, defaultTitle);
+        let seriesId = element.mal_id; //recogo el id de cada serie para luego poder modificarlas al clickarlas como favoritas
+
+        renderSeries(imgURL, defaultTitle, seriesId);
        
     }
 }
