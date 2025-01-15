@@ -1,12 +1,9 @@
-/*@import 'core/variables';
+/*
 @import 'core/reset';
 @import 'components/code';
 @import 'components/links';
-@import 'layout/page';
 @import 'layout/header';
-@import 'layout/footer';
-@import 'pages/index';*/
+@import 'layout/footer';*/
 
-body{
-    background-color: beige;
-}
+@import 'core/variables';
+@import 'layout/page';
