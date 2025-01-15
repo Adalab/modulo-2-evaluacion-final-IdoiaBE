@@ -7,20 +7,34 @@ const searchList = document.querySelector('.js-searchList');
 //creo un array donde voy a guardar los datos que me da la API (para luego pintarlos)
 let resultData = [];
 
-function renderSeries (imgURL, defaultTitle){
+const selectFavourties = (seriesId) => {
+    const allLi = document.querySelectorAll('.js-listItem'); //Me devuelve un array
+
+    for (const eachLi of allLi) {
+        eachLi.addEventListener('click', (ev)=>{
+            let selectedLi = ev.currentTarget;
+            selectedLi.classList.toggle('bookmark');
+        });
+    }
+}
+
+
+function renderSeries (imgURL, defaultTitle, seriesId){
     //si el elemento tiene los objetos que contienen la url, es decir, si tiene imagen
     if (imgURL){
         //pinto los datos recogidos
-        searchList.innerHTML += `<li id="${seriesId}" class="">
+        searchList.innerHTML += `<li id="${seriesId}" class="js-listItem">
         <img src="${imgURL}" alt="${defaultTitle}">
         <h3>${defaultTitle}</h3>
         </li> `
-        } else{ //si no, le pongo un placeholder
-        searchList.innerHTML += `<li id="${seriesId}" class="">
+    } else{ //si no, le pongo un placeholder como img
+        searchList.innerHTML += `<li id="${seriesId}" class="js-listItem">
         <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
         <h3>${defaultTitle}</h3>
         </li> `
-        }
+    }
+
+    selectFavourties(seriesId);
 }
 
 function selectInfo (){
@@ -35,7 +49,6 @@ function selectInfo (){
         let seriesId = element.mal_id; //recogo el id de cada serie para luego poder modificarlas al clickarlas como favoritas
 
         renderSeries(imgURL, defaultTitle, seriesId);
-       
     }
 }
 
