@@ -11,12 +11,12 @@ function renderSeries (imgURL, defaultTitle){
     //si el elemento tiene los objetos que contienen la url, es decir, si tiene imagen
     if (imgURL){
         //pinto los datos recogidos
-        searchList.innerHTML += `<li>
+        searchList.innerHTML += `<li class=''>
         <img src="${imgURL}" alt="${defaultTitle}">
         <h3>${defaultTitle}</h3>
         </li> `
         } else{ //si no, le pongo un placeholder
-        searchList.innerHTML += `<li>
+        searchList.innerHTML += `<li class=''>
         <img src='https://placehold.co/300x400?text=${defaultTitle}' alt='${defaultTitle}'>
         <h3>${defaultTitle}</h3>
         </li> `
