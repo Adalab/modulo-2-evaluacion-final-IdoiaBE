@@ -4,16 +4,28 @@ const searchBtn = document.querySelector('.js-searchBtn');
 
 const searchList = document.querySelector('.js-searchList');
 
-//creo un array donde voy a guardar los datos que me da la API (para luego pintarlos)
+//creo un array donde voy a guardar los datos que me da la API (para luego pintarlos) y otro para almacenar los favoritos
 let resultData = [];
+let favouritesList = [];
 
-const selectFavourties = (seriesId) => {
+const selectFavourties = () => {
     const allLi = document.querySelectorAll('.js-listItem'); //Me devuelve un array
 
     for (const eachLi of allLi) {
         eachLi.addEventListener('click', (ev)=>{
             let selectedLi = ev.currentTarget;
-            selectedLi.classList.toggle('bookmark');
+            selectedLi.classList.toggle('bookmark'); //le añado la clase de favorito
+            
+            if (selectedLi.classList.contains('bookmark')) {
+                // Si tiene la clase, lo añado al array
+                if (!favouritesList.includes(selectedLi)) {
+                    favouritesList.push(selectedLi); //si el array no incluye el li seleccionado, lo añado
+                }
+            } else {
+                // Si se deselecciona, lo elimino del array
+                favouritesList = favouritesList.filter(item => item !== selectedLi);//filtro el array para que estén sólo los items que sean diferentes al li seleccionado
+            }
+            // console.log(favouritesList);
         });
     }
 }
@@ -34,7 +46,7 @@ function renderSeries (imgURL, defaultTitle, seriesId){
         </li> `
     }
 
-    selectFavourties(seriesId);
+    selectFavourties();
 }
 
 function selectInfo (){
@@ -46,7 +58,7 @@ function selectInfo (){
 
         let defaultTitle = element.titles.find(object => object.type === "Default")?.title; //como el title está dentro de otro array llamado titles, hay que recorrerlo. Usando find encuentro el objeto cuyo type es default para luego coger el title de ese objeto
 
-        let seriesId = element.mal_id; //recogo el id de cada serie para luego poder modificarlas al clickarlas como favoritas
+        let seriesId = element.mal_id; //recogo el id de cada serie para luego poder hacer modificaciones
 
         renderSeries(imgURL, defaultTitle, seriesId);
     }
