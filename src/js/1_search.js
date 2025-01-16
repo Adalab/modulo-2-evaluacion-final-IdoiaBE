@@ -10,30 +10,28 @@ const favList = document.querySelector('.js-favList');
 let resultData = [];
 let favouritesList = [];
 
-const renderFavourites = (selectedLi) => {
-    //recogo la url, el título y el id del li seleccionado
-    const imgURL = selectedLi.querySelector('img').src;
-    const defaultTitle = selectedLi.querySelector('h3').textContent;
-    const seriesId = selectedLi.id;
-
-    //lo pinto en la ul de favoritos
-    renderSeries(imgURL, defaultTitle, seriesId, favList);
+const renderFavourites = () => {
+    //recorro el array de favoritos para buscar
+    
 }
 
 function favouritesArrayManagement (selectedLi, selectedId){
     if (selectedLi.classList.contains('bookmark')) {
         // Si tiene la clase
-        if (!favouritesList.includes(selectedLi)) {
-            favouritesList.push(selectedLi); //y si el array de favoritos no incluye el li seleccionado, lo añado al array
-           
-            //y lo pinto en la ul
-            // renderFavourites();
+        if (!favouritesList.includes(selectedId)) {
+            //y si el array de favoritos no incluye el id del li seleccionado
+            let selectedSeries = resultData.find((object) => object.mal_id === selectedId); //busco el objeto en el array de resultados que tenga ese mismo id 
+
+            //y lo añado al array de favoritos
+            favouritesList.push(selectedSeries);
         }
     } else {
         // Si no tiene la clase, si se deselecciona
-        favouritesList = favouritesList.filter(item => item !== selectedLi);//filtro el array para que estén sólo los items que sean diferentes al li seleccionado
+        favouritesList = favouritesList.filter(item => item !== selectedId);//filtro el array para que estén sólo los items que sean diferentes al li con el id seleccionado
     }
     // console.log(favouritesList);
+    //pinto los elementos que hay en el array de favoritos en la ul
+    renderFavourites();
 }
 
 const selectFavourties = () => {
@@ -43,7 +41,7 @@ const selectFavourties = () => {
         eachLi.addEventListener('click', (ev)=>{
             let selectedLi = ev.currentTarget;
             selectedLi.classList.toggle('bookmark'); //le añado la clase de favorito
-            let selectedId = ev.currentTarget.id; //cogo el id para buscarlo luego en el array de favoritos y pintarlo
+            let selectedId = parseInt(ev.currentTarget.id); //cogo el id y lo paso a formato número para buscarlo luego en los arrays
          
             favouritesArrayManagement (selectedLi, selectedId);
         });
