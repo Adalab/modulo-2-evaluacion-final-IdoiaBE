@@ -142,6 +142,5 @@ if(favouritesLS){
     favouritesList = favouritesArray;
     renderFavourites();
 } else {
-    console.log('no hay nada');
     favList.innerHTML = '<p>No tienes favoritos guardados aún.</p>';
   }
