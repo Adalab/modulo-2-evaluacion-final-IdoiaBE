@@ -44,10 +44,11 @@ function favouritesArrayManagement (selectedLi, selectedId){
     if (selectedLi.classList.contains('bookmark')) {
         // Si tiene la clase
         //busco en el array de favoritos la posición del objeto que tiene ese mismo id
-        let isItFavourite = favouritesList.findIndex((position) => position.selectedId);
+        let isItFavourite = favouritesList.findIndex((position) => position.mal_id === selectedId);
         console.log(isItFavourite);
         if (isItFavourite === -1) {
-            //si el findIndex me da -1, significa que no ha encontrado la posición de ese objeto, es decir, que no está en los favoritos
+            //si el findIndex me da -1, significa que no ha encontrado la posición del objeto con ese mismo id, es decir, que no está en los favoritos
+            console.log(favouritesList);
             let selectedSeries = resultData.find((object) => object.mal_id === selectedId); //busco el objeto en el array de resultados que tenga ese mismo id 
 
             //y lo añado al array de favoritos
@@ -58,6 +59,8 @@ function favouritesArrayManagement (selectedLi, selectedId){
         favouritesList = favouritesList.filter(item => item.mal_id !== selectedId);//filtro el array para que estén sólo los items que sean diferentes al li con el id seleccionado
     }
     // console.log(favouritesList);
+    localStorage.setItem('favouritesList', JSON.stringify(favouritesList));//cada vez que selecciono un favorito, guardo el nuevo array de favoritos en el localStorage
+
     //pinto los elementos que hay en el array de favoritos en la ul
     renderFavourites();
 }
@@ -131,3 +134,14 @@ const handleSearch = () => {
 }
 
 searchBtn.addEventListener('click', handleSearch)
+
+const favouritesLS = localStorage.getItem('favouritesList');
+
+if(favouritesLS){
+    const favouritesArray = JSON.parse(favouritesLS);
+    favouritesList = favouritesArray;
+    renderFavourites();
+} else {
+    console.log('no hay nada');
+    favList.innerHTML = '<p>No tienes favoritos guardados aún.</p>';
+  }
