@@ -80,21 +80,43 @@ const selectFavourties = () => {
 }
 
 
-function renderSeries (imgURL, defaultTitle, seriesId){
+function renderSeries (imgURL, defaultTitle, japaneseTitle, episodes, seriesId){
+    console.log(resultData);
     //si la url del elemento es diferente a esta
-    if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"){
+    if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){
         //pinto los datos recogidos
         searchList.innerHTML += `
         <li id="${seriesId}" class="js-listItem">
             <img src="${imgURL}" alt="${defaultTitle}">
             <h3>${defaultTitle}</h3>
+            <h2>${japaneseTitle}</h2>
+            <p>${episodes}</p>
         </li> 
         `;
-    } else{ //si no, le pongo un placeholder como img
+    } else if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes === null){
+        searchList.innerHTML += `
+        <li id="${seriesId}" class="js-listItem">
+            <img src="${imgURL}" alt="${defaultTitle}">
+            <h3>${defaultTitle}</h3>
+            <h2>${japaneseTitle}</h2>
+        </li> 
+        `;
+     } else if(imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){ 
+        //si no, le pongo un placeholder como img
         searchList.innerHTML += `
         <li id="${seriesId}" class="js-listItem">
             <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
             <h3>${defaultTitle}</h3>
+            <h2>${japaneseTitle}</h2>
+            <p>${episodes}</p>
+        </li> 
+        `;
+    } else{
+        searchList.innerHTML += `
+        <li id="${seriesId}" class="js-listItem">
+            <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
+            <h3>${defaultTitle}</h3>
+            <h2>${japaneseTitle}</h2>
         </li> 
         `;
     }
@@ -110,10 +132,11 @@ function selectInfo (list, array){
         const imgURL = element.images.jpg.image_url; //recogo la url del objeto jpg, que a su vez está dentro del objeto images
 
         const defaultTitle = element.titles.find(object => object.type === "Default")?.title; //como el title está dentro de otro array llamado titles, hay que recorrerlo. Usando find encuentro el objeto cuyo type es default para luego coger el title de ese objeto
-
+        const japaneseTitle = element.titles.find(object => object.type === "Japanese")?.title; 
+        const episodes = element.episodes;
         const seriesId = element.mal_id; //recogo el id de cada serie para luego poder hacer modificaciones
 
-        renderSeries(imgURL, defaultTitle, seriesId);
+        renderSeries(imgURL, defaultTitle, japaneseTitle, episodes, seriesId);
     }
 }
 
