@@ -8,6 +8,8 @@ const searchList = document.querySelector('.js-searchList');
 
 const favList = document.querySelector('.js-favList');
 
+const favBtn = document.querySelector('.js-favBtn');
+
 //creo un array donde voy a guardar los datos que me da la API (para luego pintarlos) y otro para almacenar los favoritos
 let resultData = [];
 let favouritesList = [];
@@ -81,8 +83,9 @@ const selectFavourties = () => {
 
 
 function renderSeries (imgURL, defaultTitle, japaneseTitle, episodes, seriesId){
-    console.log(resultData);
-    //forma más larga y repetitiva
+    // console.log(resultData);
+
+    //forma más larga y repetitiva (lo primero que se me ha ocurrido)
     // if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){
     //     searchList.innerHTML += `
     //     <li id="${seriesId}" class="js-listItem">
@@ -113,14 +116,11 @@ function renderSeries (imgURL, defaultTitle, japaneseTitle, episodes, seriesId){
     // } else{
     //     searchList.innerHTML += `
     //     <li id="${seriesId}" class="js-listItem">
-    //         <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
+    //         <img src="https://placehold.co/300x400?text=${defaultTitle}"             alt="${defaultTitle}">
     //         <h3>${defaultTitle}</h3>
-    //         <h2>${japaneseTitle}</h2>
-    //     </li> 
-    //     `;
-    // }
+    //         <h2>${japaneseTitle}</h2></li> `;}
+    //     
 
-    // Simplificado y más limpio
     const imageSrc = imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" 
         ? `https://placehold.co/300x400?text=${defaultTitle}` 
         : imgURL;
@@ -139,7 +139,43 @@ function renderSeries (imgURL, defaultTitle, japaneseTitle, episodes, seriesId){
     listItemHTML += `</li>`;
 
     searchList.innerHTML += listItemHTML;
-    
+
+    //con DOM avanzado
+    // // Crear el elemento <li>
+    // const listItem = document.createElement('li');
+    // listItem.id = seriesId;
+    // listItem.classList.add('js-listItem');
+
+    // // Crear el elemento <img> y establecer atributos
+    // const img = document.createElement('img');
+    // img.src = imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
+    //     ? `https://placehold.co/300x400?text=${defaultTitle}`
+    //     : imgURL;
+    // img.alt = defaultTitle;
+
+    // // Crear el elemento <h3> para el título en inglés
+    // const h3 = document.createElement('h3');
+    // h3.textContent = defaultTitle;
+
+    // // Crear el elemento <h2> para el título japonés
+    // const h2 = document.createElement('h2');
+    // h2.textContent = japaneseTitle;
+
+    // // Añadir los elementos <img>, <h3> y <h2> al <li>
+    // listItem.appendChild(img);
+    // listItem.appendChild(h3);
+    // listItem.appendChild(h2);
+
+    // // Si los episodios están disponibles, crear y añadir el <p>
+    // if (episodes !== null) {
+    //     const p = document.createElement('p');
+    //     p.textContent = episodes;
+    //     listItem.appendChild(p);
+    // }
+
+    // // Añadir el <li> a la lista
+    // searchList.appendChild(listItem);
+
     selectFavourties();    
 }
 
@@ -185,4 +221,12 @@ if(favouritesLS){
     renderFavourites();
 } else {
     favList.innerHTML = '<p>No tienes favoritos guardados aún.</p>';
-  }
+}
+
+function handleFavNumber(){
+    const numberFavArray = favouritesList.length;
+    
+    console.log(`La lista de favoritos tiene ${numberFavArray} favoritos`);
+}
+
+favBtn.addEventListener('click', handleFavNumber)
