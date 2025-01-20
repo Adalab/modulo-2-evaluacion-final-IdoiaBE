@@ -8,9 +8,22 @@ const searchList = document.querySelector('.js-searchList');
 
 const favList = document.querySelector('.js-favList');
 
+const logBtn = document.querySelector('.js-logBtn');
+
 //creo un array donde voy a guardar los datos que me da la API (para luego pintarlos) y otro para almacenar los favoritos
 let resultData = [];
 let favouritesList = [];
+
+function handleLog(){
+    for (const eachFav of favouritesList){
+        const favTitle = eachFav.title;
+        // console.log(favouritesList);
+
+        console.log(favTitle);
+    }
+}
+
+logBtn.addEventListener('click', handleLog)
 
 const renderFavourites = () => {
     favList.innerHTML = '';
@@ -80,7 +93,7 @@ const selectFavourties = () => {
 }
 
 
-function renderSeries (imgURL, defaultTitle, seriesId){
+function renderSeries (imgURL, defaultTitle, seriesId, seriesType){
     //si la url del elemento es diferente a esta
     if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"){
         //pinto los datos recogidos
@@ -88,6 +101,7 @@ function renderSeries (imgURL, defaultTitle, seriesId){
         <li id="${seriesId}" class="js-listItem">
             <img src="${imgURL}" alt="${defaultTitle}">
             <h3>${defaultTitle}</h3>
+            <p>${seriesType}</p>
         </li> 
         `;
     } else{ //si no, le pongo un placeholder como img
@@ -95,6 +109,7 @@ function renderSeries (imgURL, defaultTitle, seriesId){
         <li id="${seriesId}" class="js-listItem">
             <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
             <h3>${defaultTitle}</h3>
+            <p>${seriesType}</p>
         </li> 
         `;
     }
@@ -113,7 +128,9 @@ function selectInfo (list, array){
 
         const seriesId = element.mal_id; //recogo el id de cada serie para luego poder hacer modificaciones
 
-        renderSeries(imgURL, defaultTitle, seriesId);
+        const seriesType = element.type;
+
+        renderSeries(imgURL, defaultTitle, seriesId, seriesType);
     }
 }
 
@@ -122,7 +139,7 @@ function getDataAPI(seriesName){
     .then ((resp) => resp.json())
     .then ((allData) =>{
         resultData = allData.data; //primero lleno mi array con los datos
-        //console.log(resultData);
+        console.log(resultData);
         selectInfo(searchList, resultData);
     });
 }
