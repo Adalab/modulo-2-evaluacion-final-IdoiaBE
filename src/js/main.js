@@ -14,6 +14,22 @@ const favBtn = document.querySelector('.js-favBtn');
 let resultData = [];
 let favouritesList = [];
 
+function deleteFavourites(deleteIcons){
+
+    for(const eachX of deleteIcons){
+        function handleDeleteFav(ev){
+            const deleteId = parseInt(ev.currentTarget.closest('li').id);
+
+            favouritesList = favouritesList.filter((item) => item.mal_id !== deleteId);
+
+            renderFavourites();
+        }
+        
+
+        eachX.addEventListener('click', handleDeleteFav)
+    }
+}
+
 const renderFavourites = () => {
     favList.innerHTML = '';
     //recorro el array de favoritos para recoger los datos que luego quiero pintar
@@ -28,6 +44,7 @@ const renderFavourites = () => {
             <li id="${seriesId}" class="js-listItem">
                 <img src="${imgURL}" alt="${defaultTitle}">
                 <h3 class="saved">${defaultTitle}</h3>
+                <i class="fa-solid fa-xmark js-delete-fav"></i>
             </li> 
             `;
         } else{ //si no, le pongo un placeholder como img
@@ -35,10 +52,14 @@ const renderFavourites = () => {
             <li id="${seriesId}" class="js-listItem">
                 <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
                 <h3 class="saved">${defaultTitle}</h3>
+                <i class="fa-solid fa-xmark js-delete-fav"></i>
             </li> 
             `;
         }
 
+        const deleteIcons = document.querySelectorAll('.js-delete-fav');
+
+        deleteFavourites(deleteIcons);
     }
 }
 
@@ -227,6 +248,8 @@ function handleFavNumber(){
     const numberFavArray = favouritesList.length;
     
     console.log(`La lista de favoritos tiene ${numberFavArray} favoritos`);
+
+
 }
 
 favBtn.addEventListener('click', handleFavNumber)
