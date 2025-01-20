@@ -82,45 +82,64 @@ const selectFavourties = () => {
 
 function renderSeries (imgURL, defaultTitle, japaneseTitle, episodes, seriesId){
     console.log(resultData);
-    //si la url del elemento es diferente a esta
-    if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){
-        //pinto los datos recogidos
-        searchList.innerHTML += `
+    //forma más larga y repetitiva
+    // if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){
+    //     searchList.innerHTML += `
+    //     <li id="${seriesId}" class="js-listItem">
+    //         <img src="${imgURL}" alt="${defaultTitle}">
+    //         <h3>${defaultTitle}</h3>
+    //         <h2>${japaneseTitle}</h2>
+    //         <p>${episodes}</p>
+    //     </li> 
+    //     `;
+    // } else if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes === null){
+    //     searchList.innerHTML += `
+    //     <li id="${seriesId}" class="js-listItem">
+    //         <img src="${imgURL}" alt="${defaultTitle}">
+    //         <h3>${defaultTitle}</h3>
+    //         <h2>${japaneseTitle}</h2>
+    //     </li> 
+    //     `;
+    //  } else if(imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){ 
+    //     //si no, le pongo un placeholder como img
+    //     searchList.innerHTML += `
+    //     <li id="${seriesId}" class="js-listItem">
+    //         <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
+    //         <h3>${defaultTitle}</h3>
+    //         <h2>${japaneseTitle}</h2>
+    //         <p>${episodes}</p>
+    //     </li> 
+    //     `;
+    // } else{
+    //     searchList.innerHTML += `
+    //     <li id="${seriesId}" class="js-listItem">
+    //         <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
+    //         <h3>${defaultTitle}</h3>
+    //         <h2>${japaneseTitle}</h2>
+    //     </li> 
+    //     `;
+    // }
+
+    // Simplificado y más limpio
+    const imageSrc = imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" 
+        ? `https://placehold.co/300x400?text=${defaultTitle}` 
+        : imgURL;
+
+    let listItemHTML = `
         <li id="${seriesId}" class="js-listItem">
-            <img src="${imgURL}" alt="${defaultTitle}">
+            <img src="${imageSrc}" alt="${defaultTitle}">
             <h3>${defaultTitle}</h3>
             <h2>${japaneseTitle}</h2>
-            <p>${episodes}</p>
-        </li> 
-        `;
-    } else if (imgURL !== "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes === null){
-        searchList.innerHTML += `
-        <li id="${seriesId}" class="js-listItem">
-            <img src="${imgURL}" alt="${defaultTitle}">
-            <h3>${defaultTitle}</h3>
-            <h2>${japaneseTitle}</h2>
-        </li> 
-        `;
-     } else if(imgURL === "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" && episodes !== null){ 
-        //si no, le pongo un placeholder como img
-        searchList.innerHTML += `
-        <li id="${seriesId}" class="js-listItem">
-            <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
-            <h3>${defaultTitle}</h3>
-            <h2>${japaneseTitle}</h2>
-            <p>${episodes}</p>
-        </li> 
-        `;
-    } else{
-        searchList.innerHTML += `
-        <li id="${seriesId}" class="js-listItem">
-            <img src="https://placehold.co/300x400?text=${defaultTitle}" alt="${defaultTitle}">
-            <h3>${defaultTitle}</h3>
-            <h2>${japaneseTitle}</h2>
-        </li> 
-        `;
+    `;
+
+    if (episodes !== null) {
+        listItemHTML += `<p>${episodes}</p>`;
     }
 
+    listItemHTML += `</li>`;
+
+    searchList.innerHTML += listItemHTML;
+    
     selectFavourties();    
 }
 
